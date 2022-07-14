@@ -3,11 +3,11 @@ phases:
   pre_build:
     commands:
       - echo --- Logging in to Amazon ECR ---
-      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 395367784364.dkr.ecr.us-east-1.amazonaws.com
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 744176206000.dkr.ecr.us-east-1.amazonaws.com
   build:
     commands:
       - echo --- Building container ---
       - docker build -t pipeline-test .
-      - docker tag pipeline-test:latest 395367784364.dkr.ecr.us-east-1.amazonaws.com/pipeline-test:latest
-      - docker push 395367784364.dkr.ecr.us-east-1.amazonaws.com/pipeline-test:latest
+      - docker tag pipeline-test:latest 744176206000.dkr.ecr.us-east-1.amazonaws.com/pipeline-test:latest
+      - docker push 744176206000.dkr.ecr.us-east-1.amazonaws.com/pipeline-test:latest
       - aws ecs update-service --cluster pipeline-test --desired-count 1 --service rails-pipeline-test --task-definition pipeline --force-new-deployment
