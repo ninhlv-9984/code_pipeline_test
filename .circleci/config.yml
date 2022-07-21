@@ -7,11 +7,8 @@ orbs:
   node: circleci/node@2
 
 jobs:
-  test:  # our next job, called "test"
-    # we run "parallel job containers" to enable speeding up our tests;
-    # this splits our tests across multiple containers.
+  test:
     parallelism: 3
-    # here we set TWO docker images.
     docker:
       - image: ruby:2.7.5 # this is our primary docker image, where step commands run.
     # environment variables specific to Ruby/Rails, applied to the primary container.
@@ -20,8 +17,8 @@ jobs:
     # A series of steps to run, some are similar to those in "build".
     steps:
       - checkout
+      - run: gem install bundler
       - run: bundle check || bundle install
-
       - run: bundle exec rake db:create db:migrate
       - run: bundle exec rspec
 
