@@ -14,20 +14,11 @@ jobs:
     # environment variables specific to Ruby/Rails, applied to the primary container.
     environment:
       RAILS_ENV: test
-      BUNLE_PATH: vendor/bundle
     # A series of steps to run, some are similar to those in "build".
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - bundler-v1-{{ checksum "Gemfile.lock" }}
-            - bundler-v1-
       - run: gem install bundler
-      - run: bundle check || bundle install --clean --path vendor/bundle
-      - save_cache:
-          key: bundler-v1-{{ checksum "Gemfile.lock" }}
-          paths:
-            - vendor/bundle
+      - run: bundle check || bundle install
       - run: bundle exec rake db:create db:migrate
       - run: bundle exec rspec
 
