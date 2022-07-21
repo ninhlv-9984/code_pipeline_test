@@ -23,11 +23,11 @@ jobs:
             - bundler-v1-{{ checksum "Gemfile.lock" }}
             - bundler-v1-
       - run: gem install bundler
+      - run: bundle check || bundle install --clean --path vendor/bundle
       - save_cache:
           key: bundler-v1-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
-      - run: bundle check || bundle install --clean --path vendor/bundle
       - run: bundle exec rake db:create db:migrate
       - run: bundle exec rspec
 
