@@ -20,7 +20,7 @@ jobs:
       - run: gem install bundler
       - run: bundle check || bundle install
       - run: bundle exec rake db:create db:migrate
-      - run: bundle exec rspec
+      - run: COVERALLS_REPO_TOKEN=D2XGkA5hZnOnYY61Bc9ZLUkIC9RWKyxkO CI=true bundle exec rspec
 
 # We use workflows to orchestrate the jobs that we declared above.
 workflows:
