@@ -1,39 +1,12 @@
-version: 2.1 # Use 2.1 to enable using orbs and other features.
-
-# Declare the orbs that we'll use in our config.
-# read more about orbs: https://circleci.com/docs/orb-intro/
-orbs:
-  ruby: circleci/ruby@1.0
-  node: circleci/node@2
-
+version: 2.1
 jobs:
-  test:
-    parallelism: 3
+  build:
     docker:
-      - image: ruby:2.7.5 # this is our primary docker image, where step commands run.
-    # environment variables specific to Ruby/Rails, applied to the primary container.
-    environment:
-      RAILS_ENV: test
-      BUNLE_PATH: vendor/bundle
-    # A series of steps to run, some are similar to those in "build".
+      - image: cimg/base:current
+    resource_class: ninhlv-9984/testklass
     steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - bundler-v1-{{ checksum "Gemfile.lock" }}
-            - bundler-v1-
-      - run: gem install bundler
-      - run: bundle check || bundle install --clean --path vendor/bundle
-      - save_cache:
-          key: bundler-v1-{{ checksum "Gemfile.lock" }}
-          paths:
-            - vendor/bundle
-      - run: bundle exec rake db:create db:migrate
-      - run: bundle exec rspec
-
-# We use workflows to orchestrate the jobs that we declared above.
+      - run: echo “Hi I’m on a Container Runner!”
 workflows:
-  version: 2
-  build_and_test:     # The name of our workflow is "build_and_test"
-    jobs:             # The list of jobs we run as part of this workflow.
-      - test
+  build-workflow:
+    jobs:
+      - build

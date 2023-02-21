@@ -19,6 +19,7 @@ require 'simplecov'
 if ENV['CI']
   require 'coveralls'
   SimpleCov.formatter = Coveralls::SimpleCov::Formatter
+  Coveralls.wear!
 end
 
 # The NO_COVERAGE clause is optional - Coveralls and CircleCI don't use it by default, but may be useful for you in other circumstances.
