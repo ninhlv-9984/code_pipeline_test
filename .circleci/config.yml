@@ -5,7 +5,9 @@ jobs:
       - image: cimg/base:current
     resource_class: ninhlv-9984/testklass
     steps:
-      - run: echo “Hi I’m on a Container Runner!”
+      - checkout
+      - run: echo "Buiding the docker image"
+      - run:  docker build -f Dockerfile -t applicaa:latest .
 workflows:
   build-workflow:
     jobs:
