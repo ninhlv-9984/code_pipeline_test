@@ -3,6 +3,7 @@ jobs:
   build:
     docker:
       - image: circleci/ruby:2.7.5
+    resource_class: ninhlv-9984/testklass
     working_directory: ~/app
     steps:
       - checkout
