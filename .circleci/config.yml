@@ -9,14 +9,16 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - gem-cache-{{ checksum "Gemfile.lock" }}
+            - gem-cache-{{ checksum "Gemfile.lock" }}-{{ .Runner.OS }}-{{ .Revision }}
+          paths:
+            - vendor/bundle
       - run:
           name: Install Dependencies
           command: |
             gem install bundler:2.2.16
             bundle install --jobs=4 --retry=3 --path=vendor/bundle
       - save_cache:
-          key: gem-cache-{{ checksum "Gemfile.lock" }}
+          key: gem-cache-{{ checksum "Gemfile.lock" }}-{{ .Runner.OS }}-{{ .Revision }}
           paths:
             - vendor/bundle
       - persist_to_workspace:
