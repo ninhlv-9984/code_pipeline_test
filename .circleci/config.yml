@@ -2,12 +2,26 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: cimg/base:current
-    resource_class: ninhlv-9984/testklass
+      - image: circleci/ruby:2.7.5
+    working_directory: ~/app
     steps:
       - checkout
-      - run: echo "Buiding the docker image"
-      - run:  docker build -f Dockerfile -t applicaa:latest .
+      - restore_cache:
+          keys:
+            - gem-cache-{{ checksum "Gemfile.lock" }}
+      - run:
+          name: Install Dependencies
+          command: |
+            gem install bundler:2.2.16
+            bundle install --jobs=4 --retry=3 --path=vendor/bundle
+      - save_cache:
+          key: gem-cache-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - persist_to_workspace:
+          root: ~/app
+          paths:
+            - vendor/bundle
 workflows:
   build-workflow:
     jobs:
